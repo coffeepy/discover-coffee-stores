@@ -1,9 +1,19 @@
 import Head from "next/head";
 // import Image from "next/image";
 import Banner from "../components/banner";
+import Card from "../components/card";
 import styles from "../styles/Home.module.css";
+import coffeeStores from "../data/coffee-stores.json";
 
-export default function Home() {
+export async function getStaticProps(context) {
+  return {
+    props: {
+      coffeeStores,
+    },
+  };
+}
+
+export default function Home(props) {
   return (
     <div className={styles.container}>
       <Head>
@@ -17,6 +27,17 @@ export default function Home() {
           buttonText="View stores nearby"
           handleOnClick={() => console.log("hello")}
         />
+        <div className={styles.cardLayout}>
+          {props.coffeeStores.map((store) => (
+            <Card
+              key={store.id}
+              name={store.name}
+              imgUrl={store.imgUrl}
+              href={`coffee-store/${store.id}`}
+              className={styles.card}
+            />
+          ))}
+        </div>
         <div className={styles.heroImage}>
           {/* <Image src="/static/hero-image.png" width={700} height={400} /> */}
         </div>
